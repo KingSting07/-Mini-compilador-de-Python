@@ -30,8 +30,8 @@ GREATER: '>' ;
 LESSEQUAL: '<=' ;
 GREATEREQUAL: '>=' ;
 NOTEQUAL: '!=' ;
-TRUE: 'true' ;
-FALSE: 'false' ;
+fragment TRUE: 'true' ;
+fragment FALSE: 'false' ;
 PLUSEQUAL: '+=' ;
 MINUSEQUAL: '-=' ;
 MULTEQUAL: '*=' ;
@@ -43,6 +43,7 @@ BLOCK: ':' ;
 FUNCTION: 'def' ;
 IF: 'if' ;
 ELSE: 'else' ;
+ELIF: 'elif' ;
 WHILE: 'while' ;
 TEXTTYPE: 'str' ;
 INTTYPE: 'int' ;
@@ -130,6 +131,8 @@ VARS: 'vars' ;
 ZIP: 'zip' ;
 IMPORT: 'import' ;
 
+//So meti true e false porque o prof pedio
+BOOL: TRUE|FALSE ;
 ID: LETTER(LETTER|DIGITS)* ;
 LETTER: [a-zA-Z] ;
 FLOAT: DIGITS'.'DIGITS ;
