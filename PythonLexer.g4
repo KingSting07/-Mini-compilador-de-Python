@@ -1,4 +1,3 @@
-// DELETE THIS CONTENT IF YOU PUT COMBINED GRAMMAR IN Parser TAB
 lexer grammar ExprLexer;
 
 INDETACAO: '\t'|' ' ;
@@ -30,8 +29,8 @@ GREATER: '>' ;
 LESSEQUAL: '<=' ;
 GREATEREQUAL: '>=' ;
 NOTEQUAL: '!=' ;
-fragment TRUE: 'true' ;
-fragment FALSE: 'false' ;
+fragment TRUE: 'True' ;
+fragment FALSE: 'False' ;
 PLUSEQUAL: '+=' ;
 MINUSEQUAL: '-=' ;
 MULTEQUAL: '*=' ;
@@ -45,6 +44,8 @@ IF: 'if' ;
 ELSE: 'else' ;
 ELIF: 'elif' ;
 WHILE: 'while' ;
+FOR: 'for' ;
+IN: 'in' ;
 TEXTTYPE: 'str' ;
 INTTYPE: 'int' ;
 FLOATTYPE: 'float' ;
