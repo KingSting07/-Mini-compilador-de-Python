@@ -1,0 +1,156 @@
+parser grammar PythonParser;
+options { tokenVocab=PythonLexer; }
+//muar a Start rule para code
+code: (stat)* EOF;
+
+stat: INDETACAO* (ID '=' query 
+    | query 
+    | ID '=' expr 
+    | expr 
+    | LINE_BREAK
+    | loop_while
+    | condicional
+    | for
+    | def) (LINE_BREAK|';')?
+    ;
+
+for: FOR INDETACAO expr INDETACAO IN INDETACAO RANGETYPE INDETACAO* LPAREN (INDETACAO* (expr|query) (INDETACAO* ',' INDETACAO* (expr|query) INDETACAO*)* INDETACAO*) RPAREN INDETACAO* ':' INDETACAO* LINE_BREAK* INDETACAO* stat;
+        
+loop_while: WHILE INDETACAO (query|expr) INDETACAO* ':' LINE_BREAK (stat LINE_BREAK?)+ ;
+
+condicional: 'if' INDETACAO+ query INDETACAO* ':' LINE_BREAK INDETACAO* stat+
+    | condicional (LINE_BREAK|INDETACAO)* 'else' INDETACAO* ':' (LINE_BREAK|INDETACAO)* (expr|query)*  (LINE_BREAK|';')
+    | condicional ((LINE_BREAK|INDETACAO)* 'elif' INDETACAO+ query INDETACAO* ':' (LINE_BREAK|INDETACAO)* (expr|query)*  (LINE_BREAK|INDETACAO)*)*  'else' INDETACAO* ':'(LINE_BREAK|INDETACAO)*  (expr|query)* (LINE_BREAK|';')
+    ;
+
+def : FUNCTION INDETACAO ID INDETACAO* '(' ID (',' ID)* ')' INDETACAO* ':' LINE_BREAK INDETACAO* stat+ LINE_BREAK*;
+
+expr: ID
+    | DIGITS
+    | FLOAT
+    | func
+    | 'not' expr
+    //para que ele entenda a expr caso esteje entre parent
+    |'('expr')'
+    | expr INDETACAO 'and' INDETACAO expr
+    | expr INDETACAO ANDSYMBOL INDETACAO expr 
+    | expr INDETACAO 'or' INDETACAO expr
+    | expr INDETACAO ORSYMBOL INDETACAO expr
+    | expr ORSYMBOL expr
+    | expr INDETACAO EQ INDETACAO expr
+    | expr EQ expr
+    | expr INDETACAO LESS INDETACAO expr
+    | expr LESS expr
+    | expr INDETACAO GREATER INDETACAO expr
+    | expr GREATER expr
+    | expr INDETACAO NOTEQUAL INDETACAO expr
+    | expr NOTEQUAL expr
+    | expr INDETACAO LESSEQUAL INDETACAO expr
+    | expr LESSEQUAL expr
+    | expr INDETACAO GREATEREQUAL INDETACAO expr
+    | expr GREATEREQUAL expr
+    | expr INDETACAO ATRIBUI INDETACAO expr
+    | expr ATRIBUI expr
+    | expr INDETACAO PLUS INDETACAO expr
+    | expr PLUS expr
+    | expr INDETACAO MINUS INDETACAO expr
+    | expr MINUS expr
+    | expr INDETACAO MULT INDETACAO expr
+    | expr MULT expr
+    | expr INDETACAO DIVISION INDETACAO expr
+    | expr DIVISION expr
+    | expr INDETACAO DIVISIONINT INDETACAO expr
+    | expr DIVISIONINT expr
+    | expr EXP
+    | expr INDETACAO RESTO INDETACAO expr
+    | expr RESTO expr
+    | expr INDETACAO PLUSEQUAL INDETACAO expr
+    | expr PLUSEQUAL expr
+    | expr INDETACAO MINUSEQUAL INDETACAO expr
+    | expr MINUSEQUAL expr
+    | expr INDETACAO MULTEQUAL INDETACAO expr
+    | expr MULTEQUAL expr
+    | expr INDETACAO DIVISIONEQUAL INDETACAO expr
+    | expr DIVISIONEQUAL expr
+    | expr INDETACAO DIVISIONINTEQUAL INDETACAO expr
+    | expr DIVISIONINTEQUAL expr
+    | expr INDETACAO EXPEQUAL INDETACAO expr
+    | expr EXPEQUAL expr
+    | expr INDETACAO RESTOEQUAL INDETACAO expr
+    | expr RESTOEQUAL expr
+    | LPAREN expr (INDETACAO expr)*  RPAREN 
+    | LPARENREC expr (INDETACAO expr)* RPARENREC 
+    ;
+    
+query: BOOL
+    //para que ele entenda a expr caso esteje entre parent
+     | '('query')'
+     | query INDETACAO 'and' INDETACAO query
+     | query INDETACAO ANDSYMBOL INDETACAO query 
+     | query INDETACAO 'or' INDETACAO query
+     | query INDETACAO ORSYMBOL INDETACAO query
+     | query ORSYMBOL query
+     | query INDETACAO EQ INDETACAO query
+     | query EQ query
+     | query INDETACAO PLUS INDETACAO query
+     | query PLUS query
+     | query INDETACAO MINUS INDETACAO query
+     | query MINUS query
+     | query INDETACAO MULT INDETACAO query
+     | query MULT query
+     | query INDETACAO DIVISION INDETACAO query
+     | query DIVISION query
+     | query INDETACAO DIVISIONINT INDETACAO query
+     | query DIVISIONINT query
+     | query EXP
+     | query INDETACAO RESTO INDETACAO query
+     | query RESTO query
+     | query INDETACAO ATRIBUI INDETACAO query
+     | query ATRIBUI query
+     | query INDETACAO LESS INDETACAO query
+     | query LESS query
+     | query INDETACAO GREATER INDETACAO query
+     | query GREATER query
+     | query INDETACAO NOTEQUAL INDETACAO query
+     | query NOTEQUAL query
+     | query INDETACAO PLUSEQUAL INDETACAO query
+     | query PLUSEQUAL query
+     | query INDETACAO MINUSEQUAL INDETACAO query
+     | query MINUSEQUAL query
+     | query INDETACAO MULTEQUAL INDETACAO query
+     | query MULTEQUAL query
+     | query INDETACAO DIVISIONEQUAL INDETACAO query
+     | query DIVISIONEQUAL query
+     | query INDETACAO DIVISIONINTEQUAL INDETACAO query
+     | query DIVISIONINTEQUAL query
+     | query INDETACAO EXPEQUAL INDETACAO query
+     | query EXPEQUAL query
+     | query INDETACAO RESTOEQUAL INDETACAO query
+     | query RESTOEQUAL query
+     | LPAREN query (INDETACAO query)*  RPAREN 
+     | LPARENREC query (INDETACAO query)* RPARENREC 
+     //exprecoes que sao querys
+     | expr INDETACAO 'and' INDETACAO expr
+     | expr INDETACAO ANDSYMBOL INDETACAO expr 
+     | expr INDETACAO 'or' INDETACAO expr
+     | expr INDETACAO ORSYMBOL INDETACAO expr
+     | expr ORSYMBOL expr
+     | expr INDETACAO EQ INDETACAO expr
+     | expr EQ expr
+     | expr INDETACAO LESS INDETACAO expr
+     | expr LESS expr
+     | expr INDETACAO GREATER INDETACAO expr
+     | expr GREATER expr
+     | expr INDETACAO NOTEQUAL INDETACAO expr
+     | expr NOTEQUAL expr
+     | expr INDETACAO LESSEQUAL INDETACAO expr
+     | expr LESSEQUAL expr
+     | expr INDETACAO GREATEREQUAL INDETACAO expr
+     | expr GREATEREQUAL expr
+     | expr INDETACAO ATRIBUI INDETACAO expr
+     | expr ATRIBUI expr
+     ;
+     
+func : ID '(' expr (',' expr)* ')' 
+     | ID '(' query (',' query)* ')' 
+     ;

@@ -1,4 +1,4 @@
-lexer grammar ExprLexer;
+lexer grammar PythonLexer;
 
 INDETACAO: '\t'|' ' ;
 LINE_BREAK: '\n' ;
