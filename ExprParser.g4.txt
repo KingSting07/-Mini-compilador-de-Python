@@ -1,5 +1,5 @@
-parser grammar ExprParser;
-options { tokenVocab=ExprLexer; }
+parser grammar PythonParser;
+options { tokenVocab=PythonLexer; }
 //muar a Start rule para code
 code: (stat)* EOF;
 
@@ -29,9 +29,9 @@ expr: ID
     | DIGITS
     | FLOAT
     | func
-    | 'not' expr
     //para que ele entenda a expr caso esteje entre parent
     |'('expr')'
+    /*
     | expr INDETACAO 'and' INDETACAO expr
     | expr INDETACAO ANDSYMBOL INDETACAO expr 
     | expr INDETACAO 'or' INDETACAO expr
@@ -51,6 +51,7 @@ expr: ID
     | expr GREATEREQUAL expr
     | expr INDETACAO ATRIBUI INDETACAO expr
     | expr ATRIBUI expr
+    */
     | expr INDETACAO PLUS INDETACAO expr
     | expr PLUS expr
     | expr INDETACAO MINUS INDETACAO expr
@@ -64,6 +65,7 @@ expr: ID
     | expr EXP
     | expr INDETACAO RESTO INDETACAO expr
     | expr RESTO expr
+    /*
     | expr INDETACAO PLUSEQUAL INDETACAO expr
     | expr PLUSEQUAL expr
     | expr INDETACAO MINUSEQUAL INDETACAO expr
@@ -78,6 +80,7 @@ expr: ID
     | expr EXPEQUAL expr
     | expr INDETACAO RESTOEQUAL INDETACAO expr
     | expr RESTOEQUAL expr
+    */
     | LPAREN expr (INDETACAO expr)*  RPAREN 
     | LPARENREC expr (INDETACAO expr)* RPARENREC 
     ;
@@ -90,8 +93,10 @@ query: BOOL
      | query INDETACAO 'or' INDETACAO query
      | query INDETACAO ORSYMBOL INDETACAO query
      | query ORSYMBOL query
+     | 'not' query 
      | query INDETACAO EQ INDETACAO query
      | query EQ query
+     /*
      | query INDETACAO PLUS INDETACAO query
      | query PLUS query
      | query INDETACAO MINUS INDETACAO query
@@ -105,6 +110,7 @@ query: BOOL
      | query EXP
      | query INDETACAO RESTO INDETACAO query
      | query RESTO query
+     */
      | query INDETACAO ATRIBUI INDETACAO query
      | query ATRIBUI query
      | query INDETACAO LESS INDETACAO query
