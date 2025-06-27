@@ -1,4 +1,4 @@
-lexer grammar ExprLexer;
+lexer grammar PythonLexer;
 
 INDETACAO: '\t'|' ' ;
 LINE_BREAK: '\n' ;
@@ -136,7 +136,7 @@ IMPORT: 'import' ;
 BOOL: TRUE|FALSE ;
 ID: LETTER(LETTER|DIGITS)* ;
 LETTER: [a-zA-Z] ;
-FLOAT: DIGITS'.'DIGITS ;
-DIGITS: DIGIT+ ;
+FLOAT: DIGITS'.'DIGIT* ;
+DIGITS: "-"?DIGIT+ ;
 DIGIT: [0-9] ;
 WS: [ \r\f]+ -> skip ;
